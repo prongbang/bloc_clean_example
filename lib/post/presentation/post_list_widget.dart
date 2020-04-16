@@ -12,13 +12,15 @@ class PostListWidget extends StatefulWidget {
 class _PostListWidgetState extends State<PostListWidget> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+      itemCount: widget.items.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(widget.items[index]['title']),
+          title: Text((widget.items[index]['title']).toString().toUpperCase()),
           subtitle: Text(widget.items[index]['body']),
         );
       },
+      separatorBuilder: (context, index) => Divider(),
     );
   }
 }

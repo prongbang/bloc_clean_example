@@ -1,11 +1,22 @@
-import 'package:bloccleanexample/post/data/post_api.dart';
+import 'package:bloccleanexample/post/data/post_datasource.dart';
 
-class PostRepository {
-  final PostApi postApi;
+abstract class PostRepository {
+  Future<List> getPostList();
+}
 
-  PostRepository(this.postApi);
+class DefaultPostRepository implements PostRepository {
+  final PostDataSource postRemoteDataSource;
+  final PostDataSource postLocalDataSource;
 
-  Future<List<dynamic>> getPostList() async {
-    return postApi.getPostList();
+  DefaultPostRepository(this.postRemoteDataSource, this.postLocalDataSource);
+
+  Future<List> getPostList() async {
+    final posts = await postLocalDataSource.getPostList();
+    if (posts.length == 0) {
+      final postList = await postRemoteDataSource.getPostList();
+      postLocalDataSource.addPost(postList);
+      return postList;
+    }
+    return posts;
   }
 }

@@ -1,12 +1,12 @@
 import 'package:bloccleanexample/post/bloc/post_event.dart';
 import 'package:bloccleanexample/post/bloc/post_state.dart';
-import 'package:bloccleanexample/post/data/post_repository.dart';
+import 'package:bloccleanexample/post/domain/get_post_list_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
-  final PostRepository postRepository;
+  final GetPostListUseCase getPostListUseCase;
 
-  PostBloc(this.postRepository);
+  PostBloc(this.getPostListUseCase);
 
   @override
   PostState get initialState => PostLoading();
@@ -15,8 +15,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   Stream<PostState> mapEventToState(PostEvent event) async* {
     if (event is FetchPost) {
       try {
-        final items = await postRepository.getPostList();
-        PostLoaded(items);
+        yield PostLoaded(await getPostListUseCase.execute(null));
       } catch (_) {
         yield PostError();
       }
