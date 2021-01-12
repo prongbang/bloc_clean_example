@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class PostBloc extends Bloc<PostEvent, PostState> {
   final GetPostListUseCase getPostListUseCase;
 
-  PostBloc(this.getPostListUseCase);
+  PostBloc(PostState initialState, this.getPostListUseCase)
+      : super(initialState);
 
   @override
   PostState get initialState => PostLoading();

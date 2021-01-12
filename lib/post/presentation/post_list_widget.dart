@@ -1,3 +1,4 @@
+import 'package:bloccleanexample/post/detail/post_detail_page.dart';
 import 'package:flutter/material.dart';
 
 class PostListWidget extends StatefulWidget {
@@ -18,6 +19,16 @@ class _PostListWidgetState extends State<PostListWidget> {
         return ListTile(
           title: Text((widget.items[index]['title']).toString().toUpperCase()),
           subtitle: Text(widget.items[index]['body']),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PostDetailPage(
+                  post: widget.items[index],
+                ),
+              ),
+            );
+          },
         );
       },
       separatorBuilder: (context, index) => Divider(),
