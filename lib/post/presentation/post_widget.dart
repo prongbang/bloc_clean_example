@@ -13,7 +13,7 @@ class PostWidget extends StatefulWidget {
 class _PostWidgetState extends State<PostWidget> {
   @override
   void initState() {
-    context.bloc<PostBloc>().add(FetchPost());
+    context.read<PostBloc>().add(FetchPost());
     super.initState();
   }
 
